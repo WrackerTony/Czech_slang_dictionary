@@ -1,0 +1,19 @@
+{
+  "name": "slang-dictionary",
+  "version": "1.0.0",
+  "description": "Slovník nespisovné češtiny - Dictionary of Colloquial Czech",
+  "main": "backend/server.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd backend && node server.js",
+    "client": "cd frontend && npx http-server -p 3001 -o",
+    "setup": "npm install && cd backend && npm install",
+    "seed": "cd backend && node seed.js"
+  },
+  "keywords": ["czech", "dictionary", "slang", "language"],
+  "author": "Antonin Kunes",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

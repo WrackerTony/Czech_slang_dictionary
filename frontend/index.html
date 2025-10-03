@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slovník nespisovné češtiny</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">
+                    <i class="fas fa-book-open"></i>
+                    Slovník nespisovné češtiny
+                </h1>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Přepnout téma">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="help-btn" id="helpBtn" aria-label="Nápověda">
+                        <i class="fas fa-question-circle"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Intro Section -->
+            <section class="intro-section">
+                <div class="intro-content fade-in">
+                    <h2>Vítejte ve Slovníku nespisovné češtiny</h2>
+                    <p>Tento slovník obsahuje slangová a nespisovná slova českého jazyka s jejich spisovnými ekvivalenty a podrobnými gramatickými údaji.</p>
+                </div>
+            </section>
+
+            <!-- Search Section -->
+            <section class="search-section">
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="searchInput" placeholder="Hledat slovo..." autocomplete="off">
+                        <button class="clear-btn" id="clearBtn" aria-label="Vymazat">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">
+                            <i class="fas fa-list"></i> Vše
+                        </button>
+                        <button class="filter-btn" data-filter="slovo">
+                            <i class="fas fa-font"></i> Slova
+                        </button>
+                        <button class="filter-btn" data-filter="zkratka">
+                            <i class="fas fa-compress"></i> Zkratky
+                        </button>
+                    </div>
+                    
+                    <div class="search-suggestions" id="searchSuggestions"></div>
+                </div>
+            </section>
+
+            <!-- Word List Section -->
+            <section class="word-list-section">
+                <div class="section-header">
+                    <h3>Seznam slov</h3>
+                    <div class="word-count" id="wordCount">0 slov</div>
+                </div>
+                <div class="word-grid" id="wordGrid">
+                    <div class="loading" id="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span>Načítání...</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Word Detail Modal -->
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modern-modal">
+                <div class="modal-backdrop"></div>
+                <div class="modal-container">
+                    <div class="modal-header">
+                        <div class="modal-header-content">
+                            <div class="modal-icon">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <h2 id="modalTitle">Detail slova</h2>
+                        </div>
+                        <button class="modal-close" id="modalClose" aria-label="Zavřít">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modalBody">
+                        <!-- Content will be dynamically loaded -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Modal -->
+        <div class="modal-overlay" id="helpModal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2>Nápověda</h2>
+                    <button class="modal-close" id="helpModalClose" aria-label="Zavřít">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="help-content">
+                        <section>
+                            <h3><i class="fas fa-info-circle"></i> O projektu</h3>
+                            <p>Slovník nespisovné češtiny je webová aplikace obsahující slangová a hovorová slova českého jazyka s jejich spisovnými ekvivalenty a podrobnými gramatickými údaji ve stylu SSJČ.</p>
+                        </section>
+                        
+                        <section>
+                            <h3><i class="fas fa-search"></i> Jak vyhledávat</h3>
+                            <div class="help-grid">
+                                <div class="help-feature">
+                                    <i class="fas fa-magic"></i>
+                                    <h4>Inteligentní vyhledávání</h4>
+                                    <p>Zadejte slovo nebo jeho část a systém najde nejlepší shody</p>
+                                </div>
+                                <div class="help-feature">
+                                    <i class="fas fa-filter"></i>
+                                    <h4>Filtry</h4>
+                                    <p>Použijte tlačítka pro filtrování slov a zkratek</p>
+                                </div>
+                                <div class="help-feature">
+                                    <i class="fas fa-spell-check"></i>
+                                    <h4>Fuzzy search</h4>
+                                    <p>Najde slova i když se liší o 1 písmeno</p>
+                                </div>
+                                <div class="help-feature">
+                                    <i class="fas fa-font"></i>
+                                    <h4>Bez diakritiky</h4>
+                                    <p>Funguje bez háčků a čárek (auto = autô)</p>
+                                </div>
+                                <div class="help-feature">
+                                    <i class="fas fa-lightbulb"></i>
+                                    <h4>Návrhy</h4>
+                                    <p>Při psaní se zobrazují podobná slova</p>
+                                </div>
+                                <div class="help-feature">
+                                    <i class="fas fa-mouse-pointer"></i>
+                                    <h4>Automatické doplnění</h4>
+                                    <p>Klikněte na navrhované slovo</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="authors-section">
+                            <h3><i class="fas fa-users"></i> Autoři a přispěvatelé</h3>
+                            
+                            <div class="author-main">
+                                <div class="author-card main-author">
+                                    <div class="author-avatar">
+                                        <i class="fas fa-code"></i>
+                                    </div>
+                                    <div class="author-info">
+                                        <h4>Antonín Kuneš</h4>
+                                        <p class="author-role">Autor projektu</p>
+                                        <p class="author-desc">Hlavní vývojář aplikace, návrh databáze, implementace funkcí</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="contributors-title">
+                                <i class="fas fa-hands-helping"></i>
+                                <span>Pomocníci</span>
+                            </div>
+                            
+                            <div class="contributors-grid">
+                                <div class="author-card contributor">
+                                    <div class="author-avatar">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="author-info">
+                                        <h4>Ondřej Ležák</h4>
+                                        <p class="author-role">Přidal moderní slang a internetové trendy</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="author-card contributor">
+                                    <div class="author-avatar">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="author-info">
+                                        <h4>Martin Kotouček</h4>
+                                        <p class="author-role">Specialista na českou gramatiku a slovní druhy</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="author-card contributor">
+                                    <div class="author-avatar">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="author-info">
+                                        <h4>Vojtěch Böhm</h4>
+                                        <p class="author-role">Přidal gaming slang a sociální sítě</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p class="authors-note">
+                                <i class="fas fa-heart"></i>
+                                Tento slovník vznikl ve spolupráci s přáteli jako pomůcka pro studenty a milovníky českého jazyka.
+                            </p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
